@@ -1,0 +1,199 @@
+<Window x:Class="ArcaeaSonglistEditor.Views.MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:viewModels="clr-namespace:ArcaeaSonglistEditor.ViewModels"
+            Title="Arcaea Resource Pack Editor"
+            Width="1200"
+            Height="800"
+            MinWidth="800"
+            MinHeight="600"
+            WindowStartupLocation="CenterScreen">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Border Grid.Row="0" 
+                Background="#007ACC"
+                Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Arcaea Resource Pack Editor"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="White" />
+            </StackPanel>
+        </Border>
+
+        <!-- 主内容区域 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" MinWidth="150" />
+                <ColumnDefinition Width="5" /> <!-- GridSplitter列 -->
+                <ColumnDefinition Width="2*" MinWidth="300" />
+                <ColumnDefinition Width="5" /> <!-- GridSplitter列 -->
+                <ColumnDefinition Width="*" MinWidth="200" MaxWidth="400" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 导航栏 -->
+            <Border Grid.Column="0" 
+                    BorderBrush="LightGray" 
+                    BorderThickness="0,0,1,0">
+                <StackPanel>
+                    <Button Content="歌曲列表"
+                            Height="40"
+                            Margin="10,10,10,5"
+                            Click="SonglistButton_Click" />
+                    
+                    <Button Content="曲包列表"
+                            Height="40"
+                            Margin="10,5,10,5"
+                            Click="PacklistButton_Click" />
+                    
+                    <Button Content="解锁条件"
+                            Height="40"
+                            Margin="10,5,10,5"
+                            Click="UnlocksButton_Click" />
+                    
+                    <Button Content="验证报告"
+                            Height="40"
+                            Margin="10,5,10,5"
+                            Click="ValidationButton_Click" />
+                    
+                    <Button Content="工具"
+                            Height="40"
+                            Margin="10,5,10,5"
+                            Click="ToolsButton_Click" />
+                    
+                    <Button Content="设置"
+                            Height="40"
+                            Margin="10,5,10,5"
+                            Click="SettingsButton_Click" />
+                    
+                    <Button Content="关于"
+                            Height="40"
+                            Margin="10,5,10,5"
+                            Click="AboutButton_Click" />
+                    
+                    <Separator Margin="10,5,10,5" />
+                    
+                    <Button Content="查看日志"
+                            Height="40"
+                            Margin="10,5,10,10"
+                            Click="LogButton_Click" />
+                </StackPanel>
+            </Border>
+
+            <!-- 左侧GridSplitter -->
+            <GridSplitter Grid.Column="1"
+                         Width="5"
+                         HorizontalAlignment="Stretch"
+                         Background="LightGray"
+                         ShowsPreview="True" />
+
+            <!-- 内容框架 -->
+            <Frame Grid.Column="2" 
+                   Name="ContentFrame"
+                   NavigationUIVisibility="Hidden" />
+
+            <!-- 右侧GridSplitter -->
+            <GridSplitter Grid.Column="3"
+                         Width="5"
+                         HorizontalAlignment="Stretch"
+                         Background="LightGray"
+                         ShowsPreview="True" />
+
+            <!-- JSON预览区域 -->
+            <Border Grid.Column="4" 
+                    BorderBrush="LightGray" 
+                    BorderThickness="1,0,0,0"
+                    Background="#F8F8F8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- 预览标题 -->
+                    <Border Grid.Row="0" 
+                            Background="#E8E8E8" 
+                            Padding="10,5">
+                        <TextBlock Text="JSON预览"
+                                   FontWeight="Bold" />
+                    </Border>
+
+                    <!-- JSON内容 -->
+                    <ScrollViewer Grid.Row="1" 
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto">
+                        <TextBox Name="JsonPreviewTextBox"
+                                 FontFamily="Consolas"
+                                 FontSize="12"
+                                 IsReadOnly="True"
+                                 TextWrapping="NoWrap"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 Padding="10"
+                                 Text="{Binding JsonPreviewText}" />
+                    </ScrollViewer>
+
+                    <!-- 操作按钮 -->
+                    <Border Grid.Row="2" 
+                            Background="#F0F0F0" 
+                            Padding="10,5">
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Right">
+                            <Button Content="复制"
+                                    Padding="10,5"
+                                    Click="CopyJsonButton_Click"
+                                    ToolTip="复制JSON到剪贴板" />
+                            <Button Content="刷新"
+                                    Padding="10,5"
+                                    Margin="5,0,0,0"
+                                    Click="RefreshJsonButton_Click"
+                                    ToolTip="刷新JSON预览" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 状态栏 -->
+        <Border Grid.Row="2" 
+                Background="#F0F0F0"
+                BorderBrush="LightGray" 
+                BorderThickness="0,1,0,0"
+                Padding="10,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="{Binding StatusMessage}"
+                           VerticalAlignment="Center" />
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="歌曲: "
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding SongCount}"
+                               VerticalAlignment="Center"
+                               FontWeight="Bold"
+                               Margin="0,0,10,0" />
+                    
+                    <TextBlock Text="曲包: "
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding PackCount}"
+                               VerticalAlignment="Center"
+                               FontWeight="Bold" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

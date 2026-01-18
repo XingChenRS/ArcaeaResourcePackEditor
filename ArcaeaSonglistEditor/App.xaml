@@ -1,0 +1,18 @@
+<Application x:Class="ArcaeaSonglistEditor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:ArcaeaSonglistEditor.Converters"
+             Startup="Application_Startup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- 值转换器 -->
+            <converters:UnixTimestampConverter x:Key="UnixTimeConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:EnumToStringConverter x:Key="EnumToStringConverter" />
+            <converters:NumberFormatConverter x:Key="NumberFormatConverter" />
+            <converters:DateFormatConverter x:Key="DateFormatConverter" />
+            <converters:RowIndexConverter x:Key="RowIndexConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>ArcaeaSonglistEditor</RootNamespace>
+        <AssemblyName>ArcaeaSonglistEditor</AssemblyName>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+        <PackageReference Include="WPF-UI" Version="2.0.3" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ArcaeaSonglistEditor.Core\ArcaeaSonglistEditor.Core.csproj" />
+    </ItemGroup>
+
+</Project>
