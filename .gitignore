@@ -433,6 +433,7 @@ $RECYCLE.BIN/
 
 # Arcaea Resource Pack Editor specific ignores
 *.ps1
+rule.txt
 Test*.md
 DEVELOPMENT_LOG*.md
 

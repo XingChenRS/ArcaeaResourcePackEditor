@@ -7,7 +7,7 @@
       Height="Auto">
     
 
-    <Grid Margin="10">
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -16,12 +16,13 @@
         <!-- 标题 -->
         <TextBlock Grid.Row="0" 
                    Text="工具"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   Margin="0,0,0,20" />
+                   FontSize="20"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,12" />
 
         <!-- 工具列表 -->
-        <StackPanel Grid.Row="1" Orientation="Vertical">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
             <!-- 批量操作 -->
             <GroupBox Header="批量操作" Padding="10">
                 <StackPanel Orientation="Vertical">
@@ -215,8 +216,7 @@
                             Height="40"
                             FontSize="14"
                             Margin="0,0,0,10"
-                            Background="#FF2196F3"
-                            Foreground="White"
+                            Style="{StaticResource PrimaryButton}"
                             Command="{Binding ValidateBundleCommand}">
                         <Button.ToolTip>
                             <ToolTip>
@@ -237,9 +237,8 @@
                     <Button Content="完整的bundle封包流程"
                             Height="40"
                             FontSize="14"
-                            Background="#FF4CAF50"
-                            Foreground="White"
                             FontWeight="Bold"
+                            Style="{StaticResource SuccessButton}"
                             Command="{Binding CreateCompleteBundleCommand}">
                         <Button.ToolTip>
                             <ToolTip>
@@ -320,6 +319,7 @@
                     </Button>
                 </StackPanel>
             </GroupBox>
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

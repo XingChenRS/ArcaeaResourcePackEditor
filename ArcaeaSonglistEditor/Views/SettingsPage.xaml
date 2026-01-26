@@ -8,7 +8,7 @@
       Height="Auto">
     
 
-    <Grid Margin="10">
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -17,9 +17,9 @@
         <!-- 标题 -->
         <TextBlock Grid.Row="0" 
                    Text="设置"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   Margin="0,0,0,20" />
+                   FontSize="20"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,12" />
 
         <!-- 设置内容 -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
@@ -188,11 +188,14 @@
                     <Button Content="恢复默认设置"
                             Width="120"
                             Height="35"
+                            Margin="0,0,8,0"
                             Command="{Binding RestoreDefaultsCommand}" />
                     
                     <Button Content="保存设置"
                             Width="120"
                             Height="35"
+                            Margin="0,0,8,0"
+                            Style="{StaticResource PrimaryButton}"
                             Command="{Binding SaveSettingsCommand}" />
                     
                     <Button Content="应用"

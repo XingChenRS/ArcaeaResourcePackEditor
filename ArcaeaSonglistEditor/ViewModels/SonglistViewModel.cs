@@ -43,6 +43,14 @@ public partial class SonglistViewModel : ObservableObject
     [ObservableProperty]
     private SongInfo? _selectedSong;
 
+    [ObservableProperty]
+    private ObservableCollection<DifficultyInfo> _selectedDifficulties = new();
+
+    [ObservableProperty]
+    private DifficultyInfo? _selectedDifficulty;
+
+    public bool HasSelectedSong => SelectedSong != null;
+
     /// <summary>
     /// 搜索关键词
     /// </summary>
@@ -140,6 +148,46 @@ public partial class SonglistViewModel : ObservableObject
                 MessageBoxButton.OK, 
                 MessageBoxImage.Error);
         }
+    }
+
+    [RelayCommand]
+    private void AddDifficulty()
+    {
+        if (SelectedSong == null)
+        {
+            _mainViewModel.SetStatusMessage("请先选择一首歌曲");
+            return;
+        }
+
+        var diff = new DifficultyInfo
+        {
+            RatingClass = ArcaeaRatingClass.Past,
+            ChartDesigner = "Unknown",
+            JacketDesigner = "Unknown",
+            Rating = 1
+        };
+
+        SelectedSong.Difficulties.Add(diff);
+        SelectedDifficulties.Add(diff);
+        SelectedDifficulty = diff;
+        _songlistService.InvokeDataUpdatedEvent();
+        _mainViewModel.SetStatusMessage("已添加难度");
+    }
+
+    [RelayCommand]
+    private void RemoveSelectedDifficulty()
+    {
+        if (SelectedSong == null || SelectedDifficulty == null)
+        {
+            _mainViewModel.SetStatusMessage("请先选择要删除的难度");
+            return;
+        }
+
+        SelectedSong.Difficulties.Remove(SelectedDifficulty);
+        SelectedDifficulties.Remove(SelectedDifficulty);
+        SelectedDifficulty = SelectedDifficulties.LastOrDefault();
+        _songlistService.InvokeDataUpdatedEvent();
+        _mainViewModel.SetStatusMessage("已删除难度");
     }
 
     /// <summary>
@@ -281,5 +329,12 @@ public partial class SonglistViewModel : ObservableObject
     {
         // 更新主窗口的JSON预览
         _mainViewModel.UpdateJsonPreview(value);
+
+        SelectedDifficulties = value?.Difficulties != null
+            ? new ObservableCollection<DifficultyInfo>(value.Difficulties)
+            : new ObservableCollection<DifficultyInfo>();
+
+        SelectedDifficulty = SelectedDifficulties.FirstOrDefault();
+        OnPropertyChanged(nameof(HasSelectedSong));
     }
 }

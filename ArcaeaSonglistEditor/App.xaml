@@ -5,6 +5,292 @@
              Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
+            <!-- ========================= -->
+            <!--  Design System / Theme    -->
+            <!-- ========================= -->
+
+            <!-- Colors -->
+            <!-- Accent: calmer blue (less “neon”, closer to Fluent/Material tones) -->
+            <Color x:Key="ColorAccent">#FF2563EB</Color>
+            <Color x:Key="ColorAccentHover">#FF1D4ED8</Color>
+            <Color x:Key="ColorAccentPressed">#FF1E40AF</Color>
+
+            <Color x:Key="ColorSurface">#FFF8FAFC</Color>
+            <Color x:Key="ColorSurface2">#FFFFFFFF</Color>
+            <Color x:Key="ColorSurface3">#FFF1F5F9</Color>
+            <Color x:Key="ColorBorder">#FFE2E8F0</Color>
+
+            <Color x:Key="ColorText">#FF0F172A</Color>
+            <Color x:Key="ColorTextSecondary">#FF64748B</Color>
+            <Color x:Key="ColorDanger">#FFDC2626</Color>
+            <Color x:Key="ColorWarning">#FFD97706</Color>
+            <Color x:Key="ColorSuccess">#FF16A34A</Color>
+            <Color x:Key="ColorSuccessHover">#FF15803D</Color>
+            <Color x:Key="ColorSuccessPressed">#FF166534</Color>
+
+            <!-- Brushes -->
+            <SolidColorBrush x:Key="BrushAccent" Color="{StaticResource ColorAccent}" />
+            <SolidColorBrush x:Key="BrushAccentHover" Color="{StaticResource ColorAccentHover}" />
+            <SolidColorBrush x:Key="BrushAccentPressed" Color="{StaticResource ColorAccentPressed}" />
+            <SolidColorBrush x:Key="BrushSurface" Color="{StaticResource ColorSurface}" />
+            <SolidColorBrush x:Key="BrushSurface2" Color="{StaticResource ColorSurface2}" />
+            <SolidColorBrush x:Key="BrushSurface3" Color="{StaticResource ColorSurface3}" />
+            <SolidColorBrush x:Key="BrushBorder" Color="{StaticResource ColorBorder}" />
+            <SolidColorBrush x:Key="BrushText" Color="{StaticResource ColorText}" />
+            <SolidColorBrush x:Key="BrushTextSecondary" Color="{StaticResource ColorTextSecondary}" />
+            <SolidColorBrush x:Key="BrushDanger" Color="{StaticResource ColorDanger}" />
+            <SolidColorBrush x:Key="BrushWarning" Color="{StaticResource ColorWarning}" />
+            <SolidColorBrush x:Key="BrushSuccess" Color="{StaticResource ColorSuccess}" />
+            <SolidColorBrush x:Key="BrushSuccessHover" Color="{StaticResource ColorSuccessHover}" />
+            <SolidColorBrush x:Key="BrushSuccessPressed" Color="{StaticResource ColorSuccessPressed}" />
+
+            <!-- Sizing -->
+            <CornerRadius x:Key="RadiusSm">6</CornerRadius>
+            <CornerRadius x:Key="RadiusMd">10</CornerRadius>
+            <Thickness x:Key="PadSm">8,6</Thickness>
+            <Thickness x:Key="PadMd">12,10</Thickness>
+            <Thickness x:Key="PadLg">16,14</Thickness>
+
+            <!-- Typography -->
+            <System:Double x:Key="FontSizeBody"
+                           xmlns:System="clr-namespace:System;assembly=mscorlib">12</System:Double>
+            <System:Double x:Key="FontSizeTitle"
+                           xmlns:System="clr-namespace:System;assembly=mscorlib">18</System:Double>
+            <System:Double x:Key="FontSizeSection"
+                           xmlns:System="clr-namespace:System;assembly=mscorlib">14</System:Double>
+
+            <!-- Window defaults -->
+            <Style TargetType="{x:Type Window}">
+                <Setter Property="Background" Value="{StaticResource BrushSurface}" />
+                <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="UseLayoutRounding" Value="True" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+            </Style>
+
+            <!-- Button -->
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource BrushSurface2}" />
+                <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                <Setter Property="BorderBrush" Value="{StaticResource BrushBorder}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="{StaticResource PadSm}" />
+                <Setter Property="MinHeight" Value="32" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{StaticResource RadiusSm}"
+                                    SnapsToDevicePixels="True">
+                                <ContentPresenter Margin="0"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  RecognizesAccessKey="True" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource BrushSurface3}" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Bd" Property="Background" Value="#FFE2E8F0" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.55" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Primary Button (tonal, opt-in with Style key) -->
+            <Style x:Key="PrimaryButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Background" Value="#FFDBEAFE" />
+                <Setter Property="BorderBrush" Value="#FF93C5FD" />
+                <Setter Property="Foreground" Value="{StaticResource BrushAccentPressed}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FFBFDBFE" />
+                        <Setter Property="BorderBrush" Value="#FF60A5FA" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#FF93C5FD" />
+                        <Setter Property="BorderBrush" Value="#FF3B82F6" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Primary Button (filled, use sparingly) -->
+            <Style x:Key="PrimaryButtonFilled" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Background" Value="{StaticResource BrushAccent}" />
+                <Setter Property="BorderBrush" Value="{StaticResource BrushAccent}" />
+                <Setter Property="Foreground" Value="White" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BrushAccentHover}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource BrushAccentHover}" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BrushAccentPressed}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource BrushAccentPressed}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Success Button (tonal, opt-in with Style key) -->
+            <Style x:Key="SuccessButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Background" Value="#FFDCFCE7" />
+                <Setter Property="BorderBrush" Value="#FF86EFAC" />
+                <Setter Property="Foreground" Value="#FF166534" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FFBBF7D0" />
+                        <Setter Property="BorderBrush" Value="#FF4ADE80" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#FF86EFAC" />
+                        <Setter Property="BorderBrush" Value="#FF22C55E" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Success Button (filled, use sparingly) -->
+            <Style x:Key="SuccessButtonFilled" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Background" Value="{StaticResource BrushSuccess}" />
+                <Setter Property="BorderBrush" Value="{StaticResource BrushSuccess}" />
+                <Setter Property="Foreground" Value="White" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BrushSuccessHover}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource BrushSuccessHover}" />
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="{StaticResource BrushSuccessPressed}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource BrushSuccessPressed}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- TextBox -->
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="{StaticResource BrushSurface2}" />
+                <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                <Setter Property="BorderBrush" Value="{StaticResource BrushBorder}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Padding" Value="10,6" />
+                <Setter Property="MinHeight" Value="32" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{StaticResource RadiusSm}"
+                                    SnapsToDevicePixels="True">
+                                <ScrollViewer x:Name="PART_ContentHost" Margin="0" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource BrushAccent}" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="Bd" Property="Opacity" Value="0.55" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- ComboBox / CheckBox keep default for now, but align font -->
+            <Style TargetType="{x:Type ComboBox}">
+                <Setter Property="MinHeight" Value="32" />
+            </Style>
+
+            <Style TargetType="{x:Type CheckBox}">
+                <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+            </Style>
+
+            <!-- GroupBox -->
+            <Style TargetType="{x:Type GroupBox}">
+                <Setter Property="Margin" Value="0,0,0,12" />
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="BorderBrush" Value="{StaticResource BrushBorder}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="{StaticResource BrushSurface2}" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupBox}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{StaticResource RadiusSm}"
+                                    SnapsToDevicePixels="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                               Text="{TemplateBinding Header}"
+                                               FontSize="{StaticResource FontSizeSection}"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource BrushText}"
+                                               Margin="12,10,12,0" />
+                                    <ContentPresenter Grid.Row="1"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      Content="{TemplateBinding Content}"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- DataGrid -->
+            <Style TargetType="{x:Type DataGrid}">
+                <Setter Property="RowHeight" Value="34" />
+                <Setter Property="GridLinesVisibility" Value="None" />
+                <Setter Property="HeadersVisibility" Value="Column" />
+                <Setter Property="BorderBrush" Value="{StaticResource BrushBorder}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="{StaticResource BrushSurface2}" />
+                <Setter Property="AlternatingRowBackground" Value="#FFF8FAFC" />
+                <Setter Property="RowBackground" Value="White" />
+                <Setter Property="SelectionUnit" Value="FullRow" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+            </Style>
+
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="Background" Value="{StaticResource BrushSurface3}" />
+                <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Padding" Value="10,9" />
+                <Setter Property="BorderBrush" Value="{StaticResource BrushBorder}" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+            </Style>
+
+            <Style TargetType="{x:Type DataGridRow}">
+                <Setter Property="BorderThickness" Value="0" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#FFE0E7FF" />
+                        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <!-- 值转换器 -->
             <converters:UnixTimestampConverter x:Key="UnixTimeConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

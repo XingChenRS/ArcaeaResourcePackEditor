@@ -17,22 +17,58 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- 标题栏 -->
-        <Border Grid.Row="0" 
-                Background="#007ACC"
-                Padding="10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Arcaea Resource Pack Editor"
-                           FontSize="18"
-                           FontWeight="Bold"
-                           Foreground="White" />
-            </StackPanel>
+        <!-- 顶部栏 -->
+        <Border Grid.Row="0"
+                Background="{StaticResource BrushSurface2}"
+                BorderBrush="{StaticResource BrushBorder}"
+                BorderThickness="0,0,0,1"
+                Padding="16,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <TextBlock Text="Arcaea Resource Pack Editor"
+                               FontSize="{StaticResource FontSizeTitle}"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource BrushText}" />
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Margin="0,2,0,0"
+                               Foreground="{StaticResource BrushTextSecondary}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#FFEFF6FF"
+                            BorderBrush="#FFBFDBFE"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource RadiusSm}"
+                            Padding="10,6"
+                            Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="歌曲 " Foreground="{StaticResource BrushTextSecondary}" />
+                            <TextBlock Text="{Binding SongCount}" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Border>
+                    <Border Background="#FFEFF6FF"
+                            BorderBrush="#FFBFDBFE"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource RadiusSm}"
+                            Padding="10,6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="曲包 " Foreground="{StaticResource BrushTextSecondary}" />
+                            <TextBlock Text="{Binding PackCount}" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
         </Border>
 
         <!-- 主内容区域 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" MinWidth="150" />
+                <ColumnDefinition Width="240" MinWidth="200" />
                 <ColumnDefinition Width="5" /> <!-- GridSplitter列 -->
                 <ColumnDefinition Width="2*" MinWidth="300" />
                 <ColumnDefinition Width="5" /> <!-- GridSplitter列 -->
@@ -40,59 +76,58 @@
             </Grid.ColumnDefinitions>
 
             <!-- 导航栏 -->
-            <Border Grid.Column="0" 
-                    BorderBrush="LightGray" 
+            <Border Grid.Column="0"
+                    Background="{StaticResource BrushSurface2}"
+                    BorderBrush="{StaticResource BrushBorder}"
                     BorderThickness="0,0,1,0">
-                <StackPanel>
-                    <Button Content="歌曲列表"
-                            Height="40"
-                            Margin="10,10,10,5"
-                            Click="SonglistButton_Click" />
-                    
-                    <Button Content="曲包列表"
-                            Height="40"
-                            Margin="10,5,10,5"
-                            Click="PacklistButton_Click" />
-                    
-                    <Button Content="解锁条件"
-                            Height="40"
-                            Margin="10,5,10,5"
-                            Click="UnlocksButton_Click" />
-                    
-                    <Button Content="验证报告"
-                            Height="40"
-                            Margin="10,5,10,5"
-                            Click="ValidationButton_Click" />
-                    
-                    <Button Content="工具"
-                            Height="40"
-                            Margin="10,5,10,5"
-                            Click="ToolsButton_Click" />
-                    
-                    <Button Content="设置"
-                            Height="40"
-                            Margin="10,5,10,5"
-                            Click="SettingsButton_Click" />
-                    
-                    <Button Content="关于"
-                            Height="40"
-                            Margin="10,5,10,5"
-                            Click="AboutButton_Click" />
-                    
-                    <Separator Margin="10,5,10,5" />
-                    
-                    <Button Content="查看日志"
-                            Height="40"
-                            Margin="10,5,10,10"
-                            Click="LogButton_Click" />
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="12,12,12,8">
+                            <TextBlock Text="导航"
+                                       Foreground="{StaticResource BrushTextSecondary}"
+                                       FontWeight="SemiBold"
+                                       Margin="4,0,0,8" />
+
+                            <Button Content="歌曲列表" Margin="0,0,0,6" Click="SonglistButton_Click"
+                                    HorizontalContentAlignment="Left" />
+                            <Button Content="曲包列表" Margin="0,0,0,6" Click="PacklistButton_Click"
+                                    HorizontalContentAlignment="Left" />
+                            <Button Content="解锁条件" Margin="0,0,0,6" Click="UnlocksButton_Click"
+                                    HorizontalContentAlignment="Left" />
+                            <Button Content="验证报告" Margin="0,0,0,6" Click="ValidationButton_Click"
+                                    HorizontalContentAlignment="Left" />
+                            <Button Content="工具" Margin="0,0,0,6" Click="ToolsButton_Click"
+                                    HorizontalContentAlignment="Left" />
+                            <Button Content="设置" Margin="0,0,0,6" Click="SettingsButton_Click"
+                                    HorizontalContentAlignment="Left" />
+                            <Button Content="关于" Click="AboutButton_Click"
+                                    HorizontalContentAlignment="Left" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Border Grid.Row="1"
+                            BorderBrush="{StaticResource BrushBorder}"
+                            BorderThickness="0,1,0,0"
+                            Padding="12">
+                        <Button Content="查看日志"
+                                Height="40"
+                                HorizontalAlignment="Stretch"
+                                Style="{StaticResource PrimaryButton}"
+                                Click="LogButton_Click" />
+                    </Border>
+                </Grid>
             </Border>
 
             <!-- 左侧GridSplitter -->
             <GridSplitter Grid.Column="1"
                          Width="5"
                          HorizontalAlignment="Stretch"
-                         Background="LightGray"
+                         Background="{StaticResource BrushBorder}"
                          ShowsPreview="True" />
 
             <!-- 内容框架 -->
@@ -104,14 +139,14 @@
             <GridSplitter Grid.Column="3"
                          Width="5"
                          HorizontalAlignment="Stretch"
-                         Background="LightGray"
+                         Background="{StaticResource BrushBorder}"
                          ShowsPreview="True" />
 
             <!-- JSON预览区域 -->
             <Border Grid.Column="4" 
-                    BorderBrush="LightGray" 
+                    BorderBrush="{StaticResource BrushBorder}" 
                     BorderThickness="1,0,0,0"
-                    Background="#F8F8F8">
+                    Background="{StaticResource BrushSurface}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -121,10 +156,12 @@
 
                     <!-- 预览标题 -->
                     <Border Grid.Row="0" 
-                            Background="#E8E8E8" 
-                            Padding="10,5">
-                        <TextBlock Text="JSON预览"
-                                   FontWeight="Bold" />
+                            Background="{StaticResource BrushSurface3}"
+                            BorderBrush="{StaticResource BrushBorder}"
+                            BorderThickness="0,0,0,1"
+                            Padding="12,10">
+                        <TextBlock Text="JSON 预览"
+                                   FontWeight="SemiBold" />
                     </Border>
 
                     <!-- JSON内容 -->
@@ -138,23 +175,23 @@
                                  TextWrapping="NoWrap"
                                  BorderThickness="0"
                                  Background="Transparent"
-                                 Padding="10"
+                                 Padding="12"
                                  Text="{Binding JsonPreviewText}" />
                     </ScrollViewer>
 
                     <!-- 操作按钮 -->
                     <Border Grid.Row="2" 
-                            Background="#F0F0F0" 
-                            Padding="10,5">
+                            Background="{StaticResource BrushSurface2}"
+                            BorderBrush="{StaticResource BrushBorder}"
+                            BorderThickness="0,1,0,0"
+                            Padding="12,10">
                         <StackPanel Orientation="Horizontal" 
                                     HorizontalAlignment="Right">
                             <Button Content="复制"
-                                    Padding="10,5"
                                     Click="CopyJsonButton_Click"
                                     ToolTip="复制JSON到剪贴板" />
                             <Button Content="刷新"
-                                    Padding="10,5"
-                                    Margin="5,0,0,0"
+                                    Margin="8,0,0,0"
                                     Click="RefreshJsonButton_Click"
                                     ToolTip="刷新JSON预览" />
                         </StackPanel>
@@ -165,10 +202,10 @@
 
         <!-- 状态栏 -->
         <Border Grid.Row="2" 
-                Background="#F0F0F0"
-                BorderBrush="LightGray" 
+                Background="{StaticResource BrushSurface2}"
+                BorderBrush="{StaticResource BrushBorder}" 
                 BorderThickness="0,1,0,0"
-                Padding="10,5">
+                Padding="16,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -176,22 +213,16 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0"
-                           Text="{Binding StatusMessage}"
+                           Text="{Binding ValidationStatus}"
+                           Foreground="{StaticResource BrushTextSecondary}"
                            VerticalAlignment="Center" />
                 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock Text="歌曲: "
+                    <TextBlock Text="提示：" Foreground="{StaticResource BrushTextSecondary}" VerticalAlignment="Center" />
+                    <TextBlock Text="选择列表项可在右侧查看 JSON 预览"
+                               Foreground="{StaticResource BrushTextSecondary}"
+                               Margin="6,0,0,0"
                                VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding SongCount}"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Margin="0,0,10,0" />
-                    
-                    <TextBlock Text="曲包: "
-                               VerticalAlignment="Center" />
-                    <TextBlock Text="{Binding PackCount}"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold" />
                 </StackPanel>
             </Grid>
         </Border>

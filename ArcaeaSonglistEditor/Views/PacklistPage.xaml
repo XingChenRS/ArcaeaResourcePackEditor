@@ -8,183 +8,183 @@
       Height="Auto">
 
 
-    <Grid Margin="10">
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!-- 工具栏 -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-            <!-- 搜索框 -->
-            <TextBox Width="200"
-                       Margin="0,0,10,0"
-                       Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
-            
-            <Button Content="搜索" 
-                    Margin="0,0,10,0"
-                    Command="{Binding SearchCommand}" />
-            
-            <Separator Margin="0,0,10,0" />
-            
-            <!-- 操作按钮 -->
-            <Button Content="添加曲包" 
-                    Margin="0,0,10,0"
-                    Command="{Binding AddPackCommand}" />
-            
-            <Button Content="编辑曲包" 
-                    Margin="0,0,10,0"
-                    Command="{Binding EditPackCommand}" />
-            
-            <Button Content="删除曲包" 
-                    Margin="0,0,10,0"
-                    Command="{Binding DeletePackCommand}" />
-            
-            <Separator Margin="0,0,10,0" />
-            
-            <Button Content="移除曲包限制" 
-                    Margin="0,0,10,0"
-                    Command="{Binding RemovePackRestrictionsCommand}" />
-            
-            <Separator Margin="0,0,10,0" />
-            
-            <Button Content="导入" 
-                    Margin="0,0,10,0"
-                    Command="{Binding ImportPacklistCommand}" />
-            
-            <Button Content="导出" 
-                    Command="{Binding ExportPacklistCommand}" />
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <WrapPanel ItemHeight="32">
+                <TextBox Width="240"
+                         Margin="0,0,8,8"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Content="搜索"
+                        Margin="0,0,8,8"
+                        Command="{Binding SearchCommand}" />
+            </WrapPanel>
+
+            <WrapPanel ItemHeight="32">
+                <Button Content="添加曲包" Margin="0,0,8,8" Command="{Binding AddPackCommand}" />
+                <Button Content="编辑曲包" Margin="0,0,8,8" Command="{Binding EditPackCommand}" />
+                <Button Content="删除曲包" Margin="0,0,8,8" Command="{Binding DeletePackCommand}" />
+                <Button Content="移除曲包限制" Margin="0,0,8,8" Command="{Binding RemovePackRestrictionsCommand}" />
+                <Button Content="导入" Margin="0,0,8,8" Command="{Binding ImportPacklistCommand}" />
+                <Button Content="导出" Margin="0,0,8,8" Command="{Binding ExportPacklistCommand}" />
+            </WrapPanel>
         </StackPanel>
 
-        <!-- 曲包列表 -->
-        <DataGrid Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  ItemsSource="{Binding Packs}"
-                  SelectedItem="{Binding SelectedPack}"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  CanUserReorderColumns="False"
-                  CanUserResizeRows="False"
-                  CanUserSortColumns="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" 
-                                   Binding="{Binding Id}" 
-                                   Width="100" />
-                
-                <DataGridTextColumn Header="名称" 
-                                   Binding="{Binding NameLocalized.English}" 
-                                   Width="200" />
-                
-                <DataGridTextColumn Header="描述" 
-                                   Binding="{Binding DescriptionLocalized.English}" 
-                                   Width="250" />
-                
-                <DataGridTextColumn Header="搭档" 
-                                   Binding="{Binding PlusCharacter}" 
-                                   Width="80" />
-                
-                <DataGridCheckBoxColumn Header="扩展包" 
-                                       Binding="{Binding IsExtendPack}" 
-                                       Width="80" />
-                
-                <DataGridCheckBoxColumn Header="活动扩展" 
-                                       Binding="{Binding IsActiveExtendPack}" 
-                                       Width="80" />
-                
-                <DataGridTextColumn Header="父曲包" 
-                                   Binding="{Binding PackParent}" 
-                                   Width="100" />
-                
-                <DataGridCheckBoxColumn Header="特殊显示" 
-                                       Binding="{Binding HasSpecialDisplay}" 
-                                       Width="80" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <!-- 主从布局：左侧列表 / 右侧详情 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" MinWidth="380" />
+                <ColumnDefinition Width="6" />
+                <ColumnDefinition Width="*" MinWidth="420" />
+            </Grid.ColumnDefinitions>
 
-        <!-- 曲包详情编辑区域 -->
-        <Expander Grid.Row="2" 
-                  Header="曲包详情编辑" 
-                  Margin="0,10,0,0"
-                  IsExpanded="True">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="400">
-                <StackPanel Margin="10">
-                    <!-- 基本信息 -->
-                    <GroupBox Header="基本信息" Margin="0,0,0,10">
-                        <Grid Margin="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+            <!-- 左：曲包列表 -->
+            <DataGrid Grid.Column="0"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Packs}"
+                      SelectedItem="{Binding SelectedPack}"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      CanUserSortColumns="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="曲包ID" Binding="{Binding Id}" Width="140" />
+                    <DataGridTextColumn Header="名称(EN)" Binding="{Binding NameLocalized.English}" Width="220" />
+                    <DataGridTextColumn Header="搭档" Binding="{Binding PlusCharacter}" Width="80" />
+                    <DataGridCheckBoxColumn Header="扩展包" Binding="{Binding IsExtendPack}" Width="80" />
+                    <DataGridCheckBoxColumn Header="活动扩展" Binding="{Binding IsActiveExtendPack}" Width="90" />
+                    <DataGridTextColumn Header="父曲包" Binding="{Binding PackParent}" Width="140" />
+                </DataGrid.Columns>
+            </DataGrid>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="ID:" Margin="0,0,10,5" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="0" Grid.Column="1" 
-                                    Text="{Binding SelectedPack.Id, UpdateSourceTrigger=PropertyChanged}" 
-                                    Margin="0,0,0,5" />
+            <GridSplitter Grid.Column="1"
+                         Width="6"
+                         Background="{StaticResource BrushBorder}"
+                         HorizontalAlignment="Stretch"
+                         ShowsPreview="True" />
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="英文名称:" Margin="0,0,10,5" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="1" Grid.Column="1" 
-                                    Text="{Binding SelectedPack.NameLocalized.English, UpdateSourceTrigger=PropertyChanged}" 
-                                    Margin="0,0,0,5" />
+            <!-- 右：详情编辑 -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource BrushSurface2}"
+                    BorderBrush="{StaticResource BrushBorder}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource RadiusSm}"
+                    Padding="12">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="日文名称:" Margin="0,0,10,5" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="2" Grid.Column="1" 
-                                    Text="{Binding SelectedPack.NameLocalized.Japanese, UpdateSourceTrigger=PropertyChanged}" 
-                                    Margin="0,0,0,5" />
+                    <TextBlock Grid.Row="0"
+                               Text="曲包详情"
+                               FontWeight="SemiBold"
+                               Margin="2,0,0,10" />
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="英文描述:" Margin="0,0,10,5" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="3" Grid.Column="1" 
-                                    Text="{Binding SelectedPack.DescriptionLocalized.English, UpdateSourceTrigger=PropertyChanged}" 
-                                    Margin="0,0,0,5" />
-                        </Grid>
-                    </GroupBox>
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto">
+                        <StackPanel IsEnabled="{Binding HasSelectedPack}"
+                                    MinWidth="720">
+                            <GroupBox Header="基础信息">
+                                <Grid Margin="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                    <!-- 扩展包设置 -->
-                    <GroupBox Header="扩展包设置" Margin="0,0,0,10">
-                        <Grid Margin="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="曲包ID（id）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedPack.Id, UpdateSourceTrigger=PropertyChanged}" />
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="搭档:" Margin="0,0,10,5" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="0" Grid.Column="1" 
-                                    Text="{Binding SelectedPack.PlusCharacter, UpdateSourceTrigger=PropertyChanged}" 
-                                    Margin="0,0,0,5" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="搭档（plus_character）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedPack.PlusCharacter, UpdateSourceTrigger=PropertyChanged}" />
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="父曲包ID:" Margin="0,0,10,5" VerticalAlignment="Center" />
-                            <TextBox Grid.Row="1" Grid.Column="1" 
-                                    Text="{Binding SelectedPack.PackParent, UpdateSourceTrigger=PropertyChanged}" 
-                                    Margin="0,0,0,5" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="父曲包（pack_parent）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedPack.PackParent, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+                            </GroupBox>
 
-                            <CheckBox Grid.Row="2" Grid.Column="1" 
-                                     Content="扩展包"
-                                     IsChecked="{Binding SelectedPack.IsExtendPack}"
-                                     Margin="0,5,0,0" />
-                        </Grid>
-                    </GroupBox>
+                            <GroupBox Header="本地化（name_localized / description_localized）">
+                                <Grid Margin="4" MinWidth="860">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                    <!-- 保存按钮 -->
-                    <Button Content="保存更改" 
-                            Command="{Binding EditPackCommand}"
-                            HorizontalAlignment="Right"
-                            Padding="10,5"
-                            Margin="0,10,0,0" />
-                </StackPanel>
-            </ScrollViewer>
-        </Expander>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="名称（英文）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedPack.NameLocalized.English, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="描述（英文）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding SelectedPack.DescriptionLocalized.English, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="名称（日文）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedPack.NameLocalized.Japanese, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="描述（日文）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SelectedPack.DescriptionLocalized.Japanese, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="名称（韩文）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedPack.NameLocalized.Korean, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Text="描述（韩文）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding SelectedPack.DescriptionLocalized.Korean, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="名称（简中）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedPack.NameLocalized.SimplifiedChinese, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Text="描述（简中）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding SelectedPack.DescriptionLocalized.SimplifiedChinese, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="名称（繁中）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedPack.NameLocalized.TraditionalChinese, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Grid.Row="4" Grid.Column="2" Text="描述（繁中）" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding SelectedPack.DescriptionLocalized.TraditionalChinese, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Header="扩展包 / 显示设置">
+                                <StackPanel>
+                                    <WrapPanel>
+                                        <CheckBox Content="扩展包（is_extend_pack）" IsChecked="{Binding SelectedPack.IsExtendPack}" Margin="0,0,12,8" />
+                                        <CheckBox Content="活动扩展（is_active_extend_pack）" IsChecked="{Binding SelectedPack.IsActiveExtendPack}" Margin="0,0,12,8" />
+                                    </WrapPanel>
+
+                                    <WrapPanel>
+                                        <CheckBox Content="自带标题框（custom_banner）" IsChecked="{Binding SelectedPack.CustomBanner}" Margin="0,0,12,8" />
+                                        <CheckBox Content="菱角封面（cutout_pack_image）" IsChecked="{Binding SelectedPack.CutoutPackImage}" Margin="0,0,12,8" />
+                                        <CheckBox Content="小型封面（small_pack_image）" IsChecked="{Binding SelectedPack.SmallPackImage}" Margin="0,0,12,8" />
+                                    </WrapPanel>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button Content="保存更改"
+                                Style="{StaticResource PrimaryButton}"
+                                Command="{Binding EditPackCommand}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

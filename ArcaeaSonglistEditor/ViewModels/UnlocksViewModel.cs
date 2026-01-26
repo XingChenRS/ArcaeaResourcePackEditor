@@ -2,10 +2,14 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ArcaeaSonglistEditor.Core.Converters;
 using ArcaeaSonglistEditor.Core.Models;
 using ArcaeaSonglistEditor.Core.Services;
 
@@ -42,6 +46,11 @@ public partial class UnlocksViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     private UnlockEntry? _selectedUnlock;
+
+    [ObservableProperty]
+    private string _conditionsJson = string.Empty;
+
+    public bool HasSelectedUnlock => SelectedUnlock != null;
 
     /// <summary>
     /// 搜索关键词
@@ -223,6 +232,64 @@ public partial class UnlocksViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    private void ApplyConditionsJson()
+    {
+        if (SelectedUnlock == null)
+        {
+            _mainViewModel.SetStatusMessage("请先选择一个解锁条件");
+            return;
+        }
+
+        try
+        {
+            var json = ConditionsJson?.Trim();
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                SelectedUnlock.Conditions = new();
+            }
+            else
+            {
+                var list = JsonSerializer.Deserialize<System.Collections.Generic.List<UnlockConditionBase>>(json, CreateJsonOptions());
+                SelectedUnlock.Conditions = list ?? new();
+            }
+
+            _songlistService.InvokeDataUpdatedEvent();
+            _mainViewModel.SetStatusMessage("已应用条件 JSON");
+            LogService.Instance.Info($"已应用解锁条件JSON: {SelectedUnlock.SongId}", "UnlocksViewModel");
+        }
+        catch (Exception ex)
+        {
+            _mainViewModel.SetStatusMessage($"应用失败: {ex.Message}");
+            LogService.Instance.Error($"应用解锁条件JSON失败: {ex.Message}", "UnlocksViewModel", ex);
+            MessageBox.Show($"应用条件 JSON 失败:\n\n{ex.Message}", "应用失败", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    [RelayCommand]
+    private void RefreshConditionsJson()
+    {
+        if (SelectedUnlock == null)
+        {
+            ConditionsJson = string.Empty;
+            return;
+        }
+
+        ConditionsJson = JsonSerializer.Serialize(SelectedUnlock.Conditions, CreateJsonOptions());
+    }
+
+    private JsonSerializerOptions CreateJsonOptions()
+    {
+        return new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Converters = { new UnlockConditionConverter() }
+        };
+    }
+
     /// <summary>
     /// 当搜索文本变化时
     /// </summary>
@@ -238,5 +305,11 @@ public partial class UnlocksViewModel : ObservableObject
     {
         // 更新主窗口的JSON预览
         _mainViewModel.UpdateJsonPreview(value);
+
+        ConditionsJson = value == null
+            ? string.Empty
+            : JsonSerializer.Serialize(value.Conditions, CreateJsonOptions());
+
+        OnPropertyChanged(nameof(HasSelectedUnlock));
     }
 }

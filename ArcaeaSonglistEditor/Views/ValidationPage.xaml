@@ -8,30 +8,29 @@
       Height="Auto">
 
 
-    <Grid Margin="10">
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- 工具栏 -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-            <Button Content="验证" 
-                    Margin="0,0,10,0"
+        <WrapPanel Grid.Row="0" Margin="0,0,0,12" ItemHeight="32">
+            <Button Content="验证"
+                    Margin="0,0,8,8"
+                    Style="{StaticResource PrimaryButton}"
                     Command="{Binding ValidateCommand}" />
-            
             <CheckBox Content="严格验证模式"
-                      Margin="0,0,10,0"
+                      Margin="0,0,12,8"
                       VerticalAlignment="Center"
                       IsChecked="{Binding StrictValidationMode}" />
-            
-            <Button Content="修复所有错误" 
-                    Margin="0,0,10,0"
+            <Button Content="修复所有错误"
+                    Margin="0,0,8,8"
                     Command="{Binding FixAllErrorsCommand}" />
-            
-            <Button Content="导出报告" 
+            <Button Content="导出报告"
+                    Margin="0,0,8,8"
                     Command="{Binding ExportReportCommand}" />
-        </StackPanel>
+        </WrapPanel>
 
         <!-- 验证结果 -->
         <Grid Grid.Row="1">
@@ -42,12 +41,12 @@
 
             <!-- 验证摘要 -->
             <Border Grid.Row="0" 
-                    Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
-                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                    Background="{StaticResource BrushSurface2}"
+                    BorderBrush="{StaticResource BrushBorder}"
                     BorderThickness="1"
-                    CornerRadius="4"
-                    Padding="10"
-                    Margin="0,0,0,10">
+                    CornerRadius="{StaticResource RadiusSm}"
+                    Padding="12"
+                    Margin="0,0,0,12">
                 <TextBlock Text="{Binding ValidationSummary}"
                            TextWrapping="Wrap"
                            FontSize="12" />

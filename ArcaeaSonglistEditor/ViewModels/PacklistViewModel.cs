@@ -43,6 +43,8 @@ public partial class PacklistViewModel : ObservableObject
     [ObservableProperty]
     private PackInfo? _selectedPack;
 
+    public bool HasSelectedPack => SelectedPack != null;
+
     /// <summary>
     /// 搜索关键词
     /// </summary>
@@ -236,5 +238,6 @@ public partial class PacklistViewModel : ObservableObject
     {
         // 更新主窗口的JSON预览
         _mainViewModel.UpdateJsonPreview(value);
+        OnPropertyChanged(nameof(HasSelectedPack));
     }
 }
