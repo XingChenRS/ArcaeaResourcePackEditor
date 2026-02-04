@@ -4,7 +4,7 @@ Arcaea Resource Pack Editor 是一个专注于 Arcaea 游戏资源包管理的 G
 
 ## 项目概述
 
-基于用户需求重构 Arcaea Patch Tool，创建专注于 songlist 管理的 GUI 工具，参考 SlstGen 的 UI 设计。支持完整的 Arcaea 资源包编辑、验证和打包流程。
+重构 Arcaea Patch Tool，创建专注于 songlist 管理的 GUI 工具，参考 SlstGen 的 UI 设计。支持完整的 Arcaea 资源包编辑、验证和打包流程。
 
 ## 主要功能
 
