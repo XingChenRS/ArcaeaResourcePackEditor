@@ -19,12 +19,14 @@ Arcaea Resource Pack Editor 是一个专注于 Arcaea 游戏资源包管理的 G
 - **错误和警告分类**：清晰的错误提示和修复建议
 - **引用关系检查**：验证歌曲、曲包、解锁条件之间的引用关系
 - **Active 文件夹验证**：验证 Arcaea 资源包文件夹结构
+- **Song validation**: check song IDs, required fields, pack references, and difficulty data integrity
 
 ### 3. Bundle 封包
 - **更新现有 Active 文件夹**：只更新清单文件，保留原有资源
 - **生成 meta.cb 文件**：符合 Arcaea 标准的校验文件
 - **Bundle 匹配性验证**：验证 meta.cb 和 Active 文件夹内容是否匹配
 - **完整打包流程**：一键完成从数据编辑到最终打包的全过程
+- **Bundle packaging**: build/update Active and meta.cb with compatibility checks for release
 
 ### 4. 工具和批量操作
 - **一键移除限制**：批量移除歌曲的各种限制条件
@@ -79,6 +81,7 @@ Arcaea Resource Pack Editor 是一个专注于 Arcaea 游戏资源包管理的 G
    - 使用验证报告检查数据完整性
    - 使用工具页面检查重复歌曲、缺失曲包等问题
    - 修复所有验证错误和警告
+   - Song validation checks (IDs, required fields, pack references, and difficulty data)
 
 4. **Bundle 打包**
    - 选择现有的 Active 文件夹
