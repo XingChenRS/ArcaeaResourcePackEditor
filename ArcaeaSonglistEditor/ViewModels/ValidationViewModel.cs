@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -48,6 +49,43 @@ public partial class ValidationViewModel : ObservableObject
     private bool _strictValidationMode = false;
 
     /// <summary>
+    /// 歌曲文件夹路径
+    /// </summary>
+    [ObservableProperty]
+    private string? _songsFolderPath;
+
+    /// <summary>
+    /// 选择歌曲文件夹命令
+    /// </summary>
+    [RelayCommand]
+    private void SelectSongsFolder()
+    {
+        try
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog
+            {
+                Description = "选择songs文件夹（通常在active/songs下）",
+                ShowNewFolderButton = false
+            };
+            
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                SongsFolderPath = dialog.SelectedPath;
+                LogService.Instance.Info($"选择歌曲文件夹: {SongsFolderPath}", "ValidationViewModel");
+                _mainViewModel.SetStatusMessage($"已选择歌曲文件夹: {Path.GetFileName(SongsFolderPath)}");
+            }
+        }
+        catch (Exception ex)
+        {
+            LogService.Instance.Error("选择歌曲文件夹失败", "ValidationViewModel", ex);
+            MessageBox.Show($"选择歌曲文件夹失败:\n\n{ex.Message}", 
+                "选择失败", 
+                MessageBoxButton.OK, 
+                MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
     /// 验证命令
     /// </summary>
     [RelayCommand]
@@ -64,32 +102,112 @@ public partial class ValidationViewModel : ObservableObject
             // 创建增强验证服务
             var enhancedValidationService = new EnhancedValidationService(_songlistService);
             
-            // 尝试自动检测歌曲文件夹路径
-            string? songsFolderPath = null;
+            // 使用用户设置的歌曲文件夹路径，如果没有设置则尝试自动检测
+            string? songsFolderPath = SongsFolderPath;
             
-            // 首先检查当前工作目录
-            var currentDir = Directory.GetCurrentDirectory();
-            var possiblePaths = new[]
+            if (string.IsNullOrWhiteSpace(songsFolderPath))
             {
-                Path.Combine(currentDir, "cbandroid", "cb", "active", "songs"),
-                Path.Combine(currentDir, "cbios", "cb", "active", "songs"),
-                Path.Combine(currentDir, "songs"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "arcaea", "2.9pre", "cbandroid", "cb", "active", "songs")
-            };
-            
-            foreach (var path in possiblePaths)
-            {
-                if (Directory.Exists(path))
+                // 尝试自动检测歌曲文件夹路径
+                var currentDir = Directory.GetCurrentDirectory();
+                var possiblePaths = new[]
                 {
-                    songsFolderPath = path;
-                    LogService.Instance.Info($"找到歌曲文件夹: {path}", "ValidationViewModel");
-                    break;
+                    Path.Combine(currentDir, "cbandroid", "cb", "active", "songs"),
+                    Path.Combine(currentDir, "cbios", "cb", "active", "songs"),
+                    Path.Combine(currentDir, "songs"),
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "arcaea", "2.9pre", "cbandroid", "cb", "active", "songs")
+                };
+                
+                foreach (var path in possiblePaths)
+                {
+                    if (Directory.Exists(path))
+                    {
+                        songsFolderPath = path;
+                        LogService.Instance.Info($"自动找到歌曲文件夹: {path}", "ValidationViewModel");
+                        break;
+                    }
                 }
             }
             
             if (!string.IsNullOrWhiteSpace(songsFolderPath))
             {
                 enhancedValidationService.SetSongsFolderPath(songsFolderPath);
+                LogService.Instance.Info($"使用歌曲文件夹: {songsFolderPath}", "ValidationViewModel");
+                
+                // 自动寻找并导入清单文件
+                var importedFiles = new List<string>();
+                var importMessages = new List<string>();
+                
+                // 检查并导入songlist文件
+                var songlistPath = Path.Combine(songsFolderPath, "songlist");
+                if (File.Exists(songlistPath))
+                {
+                    try
+                    {
+                        _songlistService.LoadSonglistFromFile(songlistPath);
+                        importedFiles.Add("songlist");
+                        importMessages.Add($"• songlist (已导入)");
+                        LogService.Instance.Info($"已导入songlist文件: {songlistPath}", "ValidationViewModel");
+                    }
+                    catch (Exception ex)
+                    {
+                        importMessages.Add($"• songlist (导入失败: {ex.Message})");
+                        LogService.Instance.Error($"导入songlist文件失败: {songlistPath}", "ValidationViewModel", ex);
+                    }
+                }
+                else
+                {
+                    importMessages.Add($"• songlist (未找到)");
+                }
+                
+                // 检查并导入packlist文件
+                var packlistPath = Path.Combine(songsFolderPath, "packlist");
+                if (File.Exists(packlistPath))
+                {
+                    try
+                    {
+                        _songlistService.LoadPacklistFromFile(packlistPath);
+                        importedFiles.Add("packlist");
+                        importMessages.Add($"• packlist (已导入)");
+                        LogService.Instance.Info($"已导入packlist文件: {packlistPath}", "ValidationViewModel");
+                    }
+                    catch (Exception ex)
+                    {
+                        importMessages.Add($"• packlist (导入失败: {ex.Message})");
+                        LogService.Instance.Error($"导入packlist文件失败: {packlistPath}", "ValidationViewModel", ex);
+                    }
+                }
+                else
+                {
+                    importMessages.Add($"• packlist (未找到)");
+                }
+                
+                // 检查并导入unlocks文件
+                var unlocksPath = Path.Combine(songsFolderPath, "unlocks");
+                if (File.Exists(unlocksPath))
+                {
+                    try
+                    {
+                        _songlistService.LoadUnlocksFromFile(unlocksPath);
+                        importedFiles.Add("unlocks");
+                        importMessages.Add($"• unlocks (已导入)");
+                        LogService.Instance.Info($"已导入unlocks文件: {unlocksPath}", "ValidationViewModel");
+                    }
+                    catch (Exception ex)
+                    {
+                        importMessages.Add($"• unlocks (导入失败: {ex.Message})");
+                        LogService.Instance.Error($"导入unlocks文件失败: {unlocksPath}", "ValidationViewModel", ex);
+                    }
+                }
+                else
+                {
+                    importMessages.Add($"• unlocks (未找到)");
+                }
+                
+                // 记录导入结果
+                if (importedFiles.Count > 0)
+                {
+                    LogService.Instance.Info($"自动导入 {importedFiles.Count} 个清单文件: {string.Join(", ", importedFiles)}", "ValidationViewModel");
+                }
             }
             else if (StrictValidationMode)
             {
@@ -139,18 +257,6 @@ public partial class ValidationViewModel : ObservableObject
                 MessageBoxButton.OK, 
                 MessageBoxImage.Error);
         }
-    }
-
-    /// <summary>
-    /// 修复所有错误命令
-    /// </summary>
-    [RelayCommand]
-    private void FixAllErrors()
-    {
-        // 这里可以实现自动修复逻辑
-        // 例如：移除所有限制、清空解锁条件等
-        
-        _mainViewModel.SetStatusMessage("修复功能尚未实现");
     }
 
     /// <summary>

@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:ArcaeaSonglistEditor.Views"
         mc:Ignorable="d"
         Title="Bundle版本信息"
-        Height="300"
-        Width="400"
+        Height="340"
+        Width="420"
+        MinHeight="320"
+        MinWidth="380"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
+        ResizeMode="CanResize">
     
     <Grid Margin="15">
         <Grid.RowDefinitions>
@@ -24,59 +26,54 @@
         <!-- 标题 -->
         <TextBlock Grid.Row="0"
                    Text="请输入Bundle版本信息"
-                   FontSize="16"
-                   FontWeight="Bold"
+                   FontSize="{StaticResource FontSizeSection}"
+                   FontWeight="SemiBold"
                    Margin="0,0,0,15" />
         
         <!-- 应用程序版本 -->
         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,10">
-            <TextBlock Text="应用程序版本 (applicationVersionNumber)" 
-                       FontWeight="SemiBold"
+            <TextBlock Text="应用程序版本 (applicationVersionNumber)"
+                       Style="{StaticResource FieldLabelText}"
                        Margin="0,0,0,5" />
             <TextBox x:Name="AppVersionTextBox"
-                     Text="1.0.0"
-                     Height="25"
-                     Padding="5" />
+                     Text="1.0.0" />
             <TextBlock Text="格式: X.Y.Z (例如: 6.11.9)"
                        FontSize="11"
-                       Foreground="Gray" />
+                       Foreground="{StaticResource BrushTextSecondary}" />
         </StackPanel>
         
         <!-- Bundle版本 -->
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,0,0,10">
-            <TextBlock Text="Bundle版本 (versionNumber)" 
-                       FontWeight="SemiBold"
+            <TextBlock Text="Bundle版本 (versionNumber)"
+                       Style="{StaticResource FieldLabelText}"
                        Margin="0,0,0,5" />
             <TextBox x:Name="BundleVersionTextBox"
-                     Text="1.0.0"
-                     Height="25"
-                     Padding="5" />
+                     Text="1.0.0" />
             <TextBlock Text="格式: X.Y.Z (例如: 6.11.9.1)"
                        FontSize="11"
-                       Foreground="Gray" />
+                       Foreground="{StaticResource BrushTextSecondary}" />
         </StackPanel>
         
         <!-- 前一个Bundle版本 -->
         <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,0,0,15">
-            <TextBlock Text="前一个Bundle版本 (previousVersionNumber)" 
-                       FontWeight="SemiBold"
+            <TextBlock Text="前一个Bundle版本 (previousVersionNumber)"
+                       Style="{StaticResource FieldLabelText}"
                        Margin="0,0,0,5" />
             <TextBox x:Name="PreviousVersionTextBox"
-                     Height="25"
-                     Padding="5" />
+                     />
             <TextBlock Text="留空表示首次打包"
                        FontSize="11"
-                       Foreground="Gray" />
+                       Foreground="{StaticResource BrushTextSecondary}" />
         </StackPanel>
         
         <!-- 说明 -->
         <Border Grid.Row="4"
-                BorderBrush="LightGray"
+                BorderBrush="{StaticResource BrushBorder}"
                 BorderThickness="1"
-                CornerRadius="5"
+                CornerRadius="{StaticResource RadiusSm}"
                 Padding="10"
                 Margin="0,0,0,15"
-                Background="#FFF5F5F5">
+                Background="{StaticResource BrushSurface3}">
             <TextBlock TextWrapping="Wrap">
                 <Run Text="版本信息说明:" FontWeight="Bold" />
                 <LineBreak />

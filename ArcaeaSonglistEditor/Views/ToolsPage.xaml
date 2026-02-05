@@ -14,21 +14,17 @@
         </Grid.RowDefinitions>
 
         <!-- 标题 -->
-        <TextBlock Grid.Row="0" 
+        <TextBlock Grid.Row="0"
                    Text="工具"
-                   FontSize="20"
-                   FontWeight="SemiBold"
-                   Margin="0,0,0,12" />
+                   Style="{StaticResource PageTitleText}" />
 
         <!-- 工具列表 -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
             <!-- 批量操作 -->
-            <GroupBox Header="批量操作" Padding="10">
+            <GroupBox Header="批量操作">
                 <StackPanel Orientation="Vertical">
                     <Button Content="移除所有歌曲限制"
-                            Height="40"
-                            FontSize="14"
                             Margin="0,0,0,10"
                             Command="{Binding RemoveAllSongRestrictionsCommand}">
                         <Button.ToolTip>
@@ -48,8 +44,6 @@
                     </Button>
                     
                     <Button Content="清空所有解锁条件"
-                            Height="40"
-                            FontSize="14"
                             Margin="0,0,0,10"
                             Command="{Binding ClearAllUnlockConditionsCommand}">
                         <Button.ToolTip>
@@ -67,34 +61,14 @@
                         </Button.ToolTip>
                     </Button>
                     
-                    <Button Content="批量修改曲包设置"
-                            Height="40"
-                            FontSize="14"
-                            Command="{Binding BatchModifyPackSettingsCommand}">
-                        <Button.ToolTip>
-                            <ToolTip>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="批量修改曲包设置" FontWeight="Bold" />
-                                    <TextBlock Text="功能：批量修改多个曲包的设置，包括：" />
-                                    <TextBlock Text="• 曲包显示名称" Margin="10,0,0,0" />
-                                    <TextBlock Text="• 曲包描述" Margin="10,0,0,0" />
-                                    <TextBlock Text="• 扩展包标记 (plus_character)" Margin="10,0,0,0" />
-                                    <TextBlock Text="• 曲包排序顺序" Margin="10,0,0,0" />
-                                    <TextBlock Text="状态：开发中" Foreground="Orange" />
-                                </StackPanel>
-                            </ToolTip>
-                        </Button.ToolTip>
-                    </Button>
                 </StackPanel>
             </GroupBox>
 
 
             <!-- 验证工具 -->
-            <GroupBox Header="验证工具" Padding="10">
+            <GroupBox Header="验证工具">
                 <StackPanel Orientation="Vertical">
                     <Button Content="检查重复歌曲"
-                            Height="40"
-                            FontSize="14"
                             Command="{Binding CheckDuplicateSongsCommand}">
                         <Button.ToolTip>
                             <ToolTip>
@@ -110,8 +84,6 @@
                     </Button>
                     
                     <Button Content="检查缺失曲包"
-                            Height="40"
-                            FontSize="14"
                             Command="{Binding CheckMissingPacksCommand}">
                         <Button.ToolTip>
                             <ToolTip>
@@ -127,8 +99,6 @@
                     </Button>
                     
                     <Button Content="检查无效解锁条件"
-                            Height="40"
-                            FontSize="14"
                             Command="{Binding CheckInvalidUnlockConditionsCommand}">
                         <Button.ToolTip>
                             <ToolTip>
@@ -140,7 +110,6 @@
                                     <TextBlock Text="• 引用的歌曲ID是否存在" Margin="10,0,0,0" />
                                     <TextBlock Text="• 解锁条件类型是否有效 (0-106)" Margin="10,0,0,0" />
                                     <TextBlock Text="• 条件参数是否在有效范围内" Margin="10,0,0,0" />
-                                    <TextBlock Text="状态：开发中" Foreground="Orange" />
                                 </StackPanel>
                             </ToolTip>
                         </Button.ToolTip>
@@ -149,11 +118,9 @@
             </GroupBox>
 
             <!-- Bundle封包工具 -->
-            <GroupBox Header="Bundle封包工具" Padding="10">
+            <GroupBox Header="Bundle封包工具">
                 <StackPanel Orientation="Vertical">
                     <Button Content="验证active文件夹结构"
-                            Height="40"
-                            FontSize="14"
                             Margin="0,0,0,10"
                             Command="{Binding ValidateActiveFolderCommand}">
                         <Button.ToolTip>
@@ -172,8 +139,6 @@
                     </Button>
                     
                     <Button Content="更新现有active文件夹"
-                            Height="40"
-                            FontSize="14"
                             Margin="0,0,0,10"
                             Command="{Binding UpdateActiveFolderCommand}">
                         <Button.ToolTip>
@@ -193,8 +158,6 @@
                     </Button>
                     
                     <Button Content="生成meta.cb文件"
-                            Height="40"
-                            FontSize="14"
                             Margin="0,0,0,10"
                             Command="{Binding GenerateMetaCbCommand}">
                         <Button.ToolTip>
@@ -213,8 +176,6 @@
                     </Button>
                     
                     <Button Content="验证bundle匹配性"
-                            Height="40"
-                            FontSize="14"
                             Margin="0,0,0,10"
                             Style="{StaticResource PrimaryButton}"
                             Command="{Binding ValidateBundleCommand}">
@@ -235,8 +196,6 @@
                     </Button>
                     
                     <Button Content="完整的bundle封包流程"
-                            Height="40"
-                            FontSize="14"
                             FontWeight="Bold"
                             Style="{StaticResource SuccessButton}"
                             Command="{Binding CreateCompleteBundleCommand}">
@@ -258,32 +217,80 @@
                 </StackPanel>
             </GroupBox>
 
-            <!-- 高级工具 -->
-            <GroupBox Header="高级工具" Padding="10">
+            <!-- DL文件夹工具 -->
+            <GroupBox Header="DL文件夹工具">
                 <StackPanel Orientation="Vertical">
-                    <Button Content="生成测试数据"
-                            Height="40"
-                            FontSize="14"
-                            Command="{Binding GenerateTestDataCommand}">
+                    <Button Content="验证DL文件夹结构"
+                            Margin="0,0,0,10"
+                            Command="{Binding ValidateDlFolderCommand}">
                         <Button.ToolTip>
                             <ToolTip>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="生成测试数据" FontWeight="Bold" />
-                                    <TextBlock Text="功能：生成用于测试的示例歌曲、曲包和解锁条件数据。" />
-                                    <TextBlock Text="用途：用于测试应用程序功能，或作为数据模板。" />
-                                    <TextBlock Text="生成内容：" />
-                                    <TextBlock Text="• 10首示例歌曲" Margin="10,0,0,0" />
-                                    <TextBlock Text="• 3个示例曲包" Margin="10,0,0,0" />
-                                    <TextBlock Text="• 5个示例解锁条件" Margin="10,0,0,0" />
-                                    <TextBlock Text="状态：开发中" Foreground="Orange" />
+                                    <TextBlock Text="验证DL文件夹结构" FontWeight="Bold" />
+                                    <TextBlock Text="功能：验证Arcaea的dl文件夹结构，分析其中的资源文件。" />
+                                    <TextBlock Text="验证内容：" />
+                                    <TextBlock Text="• 分析dl文件夹中的文件命名规则" Margin="10,0,0,0" />
+                                    <TextBlock Text="• 识别音频文件、谱面文件、视频文件等" Margin="10,0,0,0" />
+                                    <TextBlock Text="• 检查歌曲是否在songlist中" Margin="10,0,0,0" />
+                                    <TextBlock Text="• 统计每个歌曲的资源完整性" Margin="10,0,0,0" />
+                                    <TextBlock Text="用途：在导入前了解dl文件夹的内容和结构" />
                                 </StackPanel>
                             </ToolTip>
                         </Button.ToolTip>
                     </Button>
                     
+                    
+                    <Button Content="填充dl_前缀文件夹"
+                            Margin="0,0,0,10"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding FillDlFoldersCommand}">
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="填充dl_前缀文件夹" FontWeight="Bold" />
+                                    <TextBlock Text="功能：从dl文件夹中查找资源并填充dl_前缀文件夹。" />
+                                    <TextBlock Text="填充流程：" />
+                                    <TextBlock Text="1. 选择dl文件夹（包含下载的资源文件）" Margin="10,0,0,0" />
+                                    <TextBlock Text="2. 选择songs文件夹（包含dl_前缀文件夹）" Margin="10,0,0,0" />
+                                    <TextBlock Text="3. 自动查找并填充对应的资源文件" Margin="10,0,0,0" />
+                                    <TextBlock Text="4. 如果文件夹资源完整，自动移除dl_前缀" Margin="10,0,0,0" />
+                                    <TextBlock Text="用途：将远程下载的歌曲转换为本地完整资源" />
+                                </StackPanel>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                    
+                    <Button Content="从DL文件夹导入资源"
+                            FontWeight="Bold"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding ImportFromDlFolderCommand}">
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="从DL文件夹导入资源" FontWeight="Bold" />
+                                    <TextBlock Text="功能：将Arcaea的dl文件夹中的资源导入到songs文件夹。" />
+                                    <TextBlock Text="导入流程：" />
+                                    <TextBlock Text="1. 选择dl文件夹（包含下载的资源文件）" Margin="10,0,0,0" />
+                                    <TextBlock Text="2. 选择目标songs文件夹（通常在active/songs下）" Margin="10,0,0,0" />
+                                    <TextBlock Text="3. 自动识别文件类型并重命名" Margin="10,0,0,0" />
+                                    <TextBlock Text="4. 创建歌曲文件夹并复制文件" Margin="10,0,0,0" />
+                                    <TextBlock Text="文件映射：" />
+                                    <TextBlock Text="• 歌曲名 → base.ogg（音频文件）" Margin="10,0,0,0" />
+                                    <TextBlock Text="• 歌曲名_数字 → 数字.aff（谱面文件）" Margin="10,0,0,0" />
+                                    <TextBlock Text="• 歌曲名_video_audio.ogg → video_audio.ogg" Margin="10,0,0,0" />
+                                    <TextBlock Text="• 歌曲名_video.mp4 → video.mp4" Margin="10,0,0,0" />
+                                    <TextBlock Text="用途：将下载的资源转换为Arcaea可用的格式" />
+                                </StackPanel>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- 高级工具 -->
+            <GroupBox Header="高级工具">
+                <StackPanel Orientation="Vertical">
                     <Button Content="清理临时文件"
-                            Height="40"
-                            FontSize="14"
                             Command="{Binding CleanTempFilesCommand}">
                         <Button.ToolTip>
                             <ToolTip>
@@ -293,26 +300,6 @@
                                     <TextBlock Text="清理范围：系统临时目录中所有以arcaea_开头的.tmp文件" />
                                     <TextBlock Text="注意：这不会删除日志文件或用户数据" />
                                     <TextBlock Text="建议：定期清理以释放磁盘空间" />
-                                </StackPanel>
-                            </ToolTip>
-                        </Button.ToolTip>
-                    </Button>
-                    
-                    <Button Content="重置所有设置"
-                            Height="40"
-                            FontSize="14"
-                            Command="{Binding ResetAllSettingsCommand}">
-                        <Button.ToolTip>
-                            <ToolTip>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="重置所有设置" FontWeight="Bold" />
-                                    <TextBlock Text="功能：恢复所有应用程序设置为默认值。" />
-                                    <TextBlock Text="重置内容：" />
-                                    <TextBlock Text="• 界面设置（主题、字体大小等）" Margin="10,0,0,0" />
-                                    <TextBlock Text="• 编辑器设置（默认值、验证选项等）" Margin="10,0,0,0" />
-                                    <TextBlock Text="• 文件设置（默认路径、自动保存等）" Margin="10,0,0,0" />
-                                    <TextBlock Text="注意：不会删除歌曲、曲包和解锁条件数据" />
-                                    <TextBlock Text="状态：开发中" Foreground="Orange" />
                                 </StackPanel>
                             </ToolTip>
                         </Button.ToolTip>

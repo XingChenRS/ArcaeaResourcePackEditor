@@ -17,6 +17,7 @@
 
         <!-- 工具栏 -->
         <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="解锁条件" Style="{StaticResource PageTitleText}" />
             <WrapPanel ItemHeight="32">
                 <TextBox Width="240"
                          Margin="0,0,8,8"
@@ -86,14 +87,12 @@
 
                     <TextBlock Grid.Row="0"
                                Text="解锁条件详情"
-                               FontWeight="SemiBold"
-                               Margin="2,0,0,10" />
+                               Style="{StaticResource SectionTitleText}" />
 
                     <ScrollViewer Grid.Row="1"
                                   VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Auto">
-                        <StackPanel IsEnabled="{Binding HasSelectedUnlock}"
-                                    MinWidth="720">
+                        <StackPanel IsEnabled="{Binding HasSelectedUnlock}">
                             <GroupBox Header="基础信息">
                                 <Grid Margin="4">
                                     <Grid.RowDefinitions>
@@ -101,14 +100,14 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="160" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="歌曲ID（songId）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="歌曲ID（songId）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedUnlock.SongId, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="难度（ratingClass）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="难度（ratingClass）" Style="{StaticResource FieldLabelText}" />
                                     <ComboBox Grid.Row="1" Grid.Column="1"
                                               SelectedValue="{Binding SelectedUnlock.RatingClass}"
                                               SelectedValuePath="Tag">

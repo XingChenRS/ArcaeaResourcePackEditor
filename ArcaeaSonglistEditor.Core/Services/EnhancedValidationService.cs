@@ -42,6 +42,7 @@ public class EnhancedValidationService
         if (!string.IsNullOrWhiteSpace(_songsFolderPath) && Directory.Exists(_songsFolderPath))
         {
             ValidateFolderExistence(result);
+            ValidateSongsFolderStructure(result);
         }
         else if (strictMode)
         {
@@ -274,7 +275,7 @@ public class EnhancedValidationService
         var songFolders = new HashSet<string>(Directory.GetDirectories(_songsFolderPath!)
             .Select(Path.GetFileName)
             .Where(name => !string.IsNullOrEmpty(name))!);
-
+        
         int missingFolders = 0;
         int dlFolders = 0;
         int matchingFolders = 0;
@@ -313,6 +314,88 @@ public class EnhancedValidationService
             MatchingFolders = matchingFolders,
             MissingFolders = missingFolders
         };
+    }
+
+    /// <summary>
+    /// 验证songs文件夹结构
+    /// </summary>
+    private void ValidateSongsFolderStructure(EnhancedValidationResult result)
+    {
+        try
+        {
+            if (!Directory.Exists(_songsFolderPath))
+            {
+                result.AddWarning($"songs文件夹不存在: {_songsFolderPath}");
+                return;
+            }
+
+            // 获取所有歌曲文件夹
+            var songFolders = Directory.GetDirectories(_songsFolderPath);
+            int totalSongFolders = songFolders.Length;
+            int hasBaseOgg = 0;
+            int hasChartFiles = 0;
+            int hasJacketFiles = 0;
+            int hasVideo = 0;
+            int dlFolders = 0;
+
+            foreach (var folderPath in songFolders)
+            {
+                var folderName = Path.GetFileName(folderPath);
+                
+                // 检查文件夹名称格式
+                if (folderName.StartsWith("dl_"))
+                {
+                    dlFolders++;
+                }
+                
+                // 获取文件夹中的文件
+                var files = Directory.GetFiles(folderPath).Select(Path.GetFileName).ToList();
+                
+                // 检查必要的文件
+                var hasBaseOggFile = files.Any(f => f.Equals("base.ogg", StringComparison.OrdinalIgnoreCase));
+                var hasChartFile = files.Any(f => f.EndsWith(".aff", StringComparison.OrdinalIgnoreCase));
+                var hasJacketFile = files.Any(f => 
+                    f.StartsWith("jacket_", StringComparison.OrdinalIgnoreCase) || 
+                    f.StartsWith("jacket.", StringComparison.OrdinalIgnoreCase));
+                var hasVideoFile = files.Any(f => 
+                    f.Equals("video.mp4", StringComparison.OrdinalIgnoreCase) ||
+                    f.Equals("video_audio.ogg", StringComparison.OrdinalIgnoreCase));
+                
+                if (hasBaseOggFile) hasBaseOgg++;
+                if (hasChartFile) hasChartFiles++;
+                if (hasJacketFile) hasJacketFiles++;
+                if (hasVideoFile) hasVideo++;
+                
+                // 添加警告信息
+                if (!hasBaseOggFile)
+                {
+                    result.AddWarning($"歌曲文件夹 '{folderName}' 缺少base.ogg文件");
+                }
+                
+                if (!hasChartFile)
+                {
+                    result.AddWarning($"歌曲文件夹 '{folderName}' 缺少谱面文件(.aff)");
+                }
+            }
+
+            // 添加文件夹结构统计信息
+            result.Statistics = new FolderStatistics
+            {
+                TotalSongsInList = _songlistService.Songs.Count,
+                TotalFolders = totalSongFolders,
+                DlFolders = dlFolders,
+                MatchingFolders = 0, // 这个字段在ValidateFolderExistence中设置
+                MissingFolders = 0,  // 这个字段在ValidateFolderExistence中设置
+                HasBaseOgg = hasBaseOgg,
+                HasChartFiles = hasChartFiles,
+                HasJacketFiles = hasJacketFiles,
+                HasVideo = hasVideo
+            };
+        }
+        catch (Exception ex)
+        {
+            result.AddWarning($"验证songs文件夹结构失败: {ex.Message}");
+        }
     }
 }
 
@@ -382,6 +465,24 @@ public class EnhancedValidationResult
             {
                 summary.Add($"⚠️  警告: 有 {Statistics.MissingFolders} 首歌曲缺少对应的文件夹");
             }
+            
+            // 添加文件夹结构统计信息
+            summary.Add("");
+            summary.Add("文件夹结构统计:");
+            summary.Add($"  有base.ogg的文件夹: {Statistics.HasBaseOgg}/{Statistics.TotalFolders}");
+            summary.Add($"  有谱面文件的文件夹: {Statistics.HasChartFiles}/{Statistics.TotalFolders}");
+            summary.Add($"  有曲绘文件的文件夹: {Statistics.HasJacketFiles}/{Statistics.TotalFolders}");
+            summary.Add($"  有视频的文件夹: {Statistics.HasVideo}/{Statistics.TotalFolders}");
+            
+            // 添加警告信息
+            if (Statistics.HasBaseOgg < Statistics.TotalFolders)
+            {
+                summary.Add($"⚠️  警告: 有 {Statistics.TotalFolders - Statistics.HasBaseOgg} 个文件夹缺少base.ogg文件");
+            }
+            if (Statistics.HasChartFiles < Statistics.TotalFolders)
+            {
+                summary.Add($"⚠️  警告: 有 {Statistics.TotalFolders - Statistics.HasChartFiles} 个文件夹缺少谱面文件");
+            }
         }
 
         return string.Join(Environment.NewLine, summary);
@@ -398,5 +499,8 @@ public class FolderStatistics
     public int DlFolders { get; set; }
     public int MatchingFolders { get; set; }
     public int MissingFolders { get; set; }
+    public int HasBaseOgg { get; set; }
+    public int HasChartFiles { get; set; }
+    public int HasJacketFiles { get; set; }
+    public int HasVideo { get; set; }
 }
-

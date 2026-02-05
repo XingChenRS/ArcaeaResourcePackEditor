@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -99,11 +100,12 @@ public class BundleService
                 PathToDetails = pathToDetails
             };
 
-            // 序列化为JSON
+            // 序列化为JSON - 使用UnsafeRelaxedJsonEscaping防止Base64字符被转义
             var jsonOptions = new JsonSerializerOptions
             {
-                WriteIndented = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                WriteIndented = false, // 使用紧凑格式，与main.py一致
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             };
 
             var json = JsonSerializer.Serialize(metadata, jsonOptions);
@@ -329,7 +331,7 @@ public class BundleService
     private string GenerateUuid()
     {
         using var rng = RandomNumberGenerator.Create();
-        var bytes = new byte[9];
+        var bytes = new byte[16]; // 与main.py一致，生成16字节随机数
         rng.GetBytes(bytes);
         return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant().Substring(0, 9);
     }

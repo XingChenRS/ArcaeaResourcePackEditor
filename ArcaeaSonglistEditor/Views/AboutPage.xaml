@@ -15,21 +15,22 @@
         <!-- 标题 -->
         <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,10">
             <TextBlock Text="Arcaea Resource Pack Editor"
-                       FontSize="32"
-                       FontWeight="Bold"
-                       HorizontalAlignment="Center" />
+                       FontSize="24"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource BrushText}" />
             
             <TextBlock Text="版本 1.0.0"
-                       FontSize="16"
+                       FontSize="14"
                        HorizontalAlignment="Center"
-                       Foreground="Gray" />
+                       Foreground="{StaticResource BrushTextSecondary}" />
         </StackPanel>
         
         <!-- 内容 -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,12,0,12">
             <StackPanel Orientation="Vertical">
                 <!-- 项目描述 -->
-                <GroupBox Header="项目描述" Padding="10">
+                <GroupBox Header="项目描述">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Arcaea Resource Pack Editor 是一个专注于 Arcaea 游戏资源包管理的 GUI 工具。"
                                    TextWrapping="Wrap"
@@ -41,7 +42,7 @@
                 </GroupBox>
                 
                 <!-- 主要功能 -->
-                <GroupBox Header="主要功能" Padding="10">
+                <GroupBox Header="主要功能">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <TextBlock Text="✓" FontWeight="Bold" Margin="0,0,10,0" />
@@ -76,7 +77,7 @@
                 </GroupBox>
                 
                 <!-- 技术信息 -->
-                <GroupBox Header="技术信息" Padding="10">
+                <GroupBox Header="技术信息">
                     <StackPanel Orientation="Vertical">
                         <Grid Margin="0,0,0,10">
                             <Grid.ColumnDefinitions>
@@ -114,7 +115,7 @@
                 </GroupBox>
                 
                 <!-- 开源协议 -->
-                <GroupBox Header="开源协议" Padding="10">
+                <GroupBox Header="开源协议">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="本项目基于 MIT 协议开源。" TextWrapping="Wrap" Margin="0,0,0,10" />
                         
@@ -123,16 +124,19 @@
                         
                         <TextBlock Text="Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
                                    TextWrapping="Wrap"
-                                   FontSize="10" Margin="0,0,0,10" />
+                                   FontSize="11"
+                                   Foreground="{StaticResource BrushTextSecondary}"
+                                   Margin="0,0,0,10" />
                         
                         <TextBlock Text="The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
                                    TextWrapping="Wrap"
-                                   FontSize="10" />
+                                   FontSize="11"
+                                   Foreground="{StaticResource BrushTextSecondary}" />
                     </StackPanel>
                 </GroupBox>
                 
                 <!-- 致谢 -->
-                <GroupBox Header="致谢" Padding="10">
+                <GroupBox Header="致谢">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="感谢以下项目和工具：" TextWrapping="Wrap" Margin="0,0,0,10" />
                         

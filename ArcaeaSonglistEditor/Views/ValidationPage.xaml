@@ -11,29 +11,55 @@
     <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- 工具栏 -->
-        <WrapPanel Grid.Row="0" Margin="0,0,0,12" ItemHeight="32">
-            <Button Content="验证"
-                    Margin="0,0,8,8"
-                    Style="{StaticResource PrimaryButton}"
-                    Command="{Binding ValidateCommand}" />
-            <CheckBox Content="严格验证模式"
-                      Margin="0,0,12,8"
-                      VerticalAlignment="Center"
-                      IsChecked="{Binding StrictValidationMode}" />
-            <Button Content="修复所有错误"
-                    Margin="0,0,8,8"
-                    Command="{Binding FixAllErrorsCommand}" />
-            <Button Content="导出报告"
-                    Margin="0,0,8,8"
-                    Command="{Binding ExportReportCommand}" />
-        </WrapPanel>
+        <StackPanel Grid.Row="0" Margin="0,0,0,8">
+            <TextBlock Text="验证报告" Style="{StaticResource PageTitleText}" />
+            <WrapPanel ItemHeight="32">
+                <Button Content="验证"
+                        Margin="0,0,8,8"
+                        Style="{StaticResource PrimaryButton}"
+                        Command="{Binding ValidateCommand}" />
+                <CheckBox Content="严格验证模式"
+                          Margin="0,0,12,8"
+                          VerticalAlignment="Center"
+                          IsChecked="{Binding StrictValidationMode}" />
+                <Button Content="选择Songs文件夹"
+                        Margin="0,0,8,8"
+                        Command="{Binding SelectSongsFolderCommand}" />
+                <Button Content="导出报告"
+                        Margin="0,0,8,8"
+                        Command="{Binding ExportReportCommand}" />
+            </WrapPanel>
+        </StackPanel>
+        
+        <!-- 当前选择的文件夹路径 -->
+        <Border Grid.Row="1" 
+                Background="{StaticResource BrushSurface2}"
+                BorderBrush="{StaticResource BrushBorder}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource RadiusSm}"
+                Padding="8"
+                Margin="0,0,0,12"
+                HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="当前Songs文件夹: "
+                           VerticalAlignment="Center"
+                           FontSize="12" />
+                <TextBlock Text="{Binding SongsFolderPath, FallbackValue='未选择（将尝试自动检测）'}"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           TextTrimming="CharacterEllipsis"
+                           MaxWidth="300" />
+            </StackPanel>
+        </Border>
 
         <!-- 验证结果 -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

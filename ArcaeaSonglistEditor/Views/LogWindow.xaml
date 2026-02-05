@@ -21,14 +21,14 @@
         </Grid.RowDefinitions>
         
         <!-- 工具栏 -->
-        <Border Grid.Row="0" 
-                Background="#F5F5F5" 
-                BorderBrush="LightGray" 
+        <Border Grid.Row="0"
+                Background="{StaticResource BrushSurface2}"
+                BorderBrush="{StaticResource BrushBorder}"
                 BorderThickness="0,0,0,1"
-                Padding="10">
-            <StackPanel Orientation="Horizontal">
+                Padding="12,10">
+            <WrapPanel ItemHeight="32">
                 <!-- 日志级别筛选 -->
-                <TextBlock Text="日志级别:" 
+                <TextBlock Text="日志级别:"
                            VerticalAlignment="Center"
                            Margin="0,0,5,0" />
                 
@@ -44,61 +44,44 @@
                 </ComboBox>
                 
                 <!-- 搜索框 -->
-                <TextBlock Text="搜索:" 
+                <TextBlock Text="搜索:"
                            VerticalAlignment="Center"
                            Margin="10,0,5,0" />
                 
-                <TextBox Width="200"
+                <TextBox Width="220"
                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                          VerticalAlignment="Center"
-                         Margin="0,0,10,0">
-                    <TextBox.Style>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="TextBox">
-                                        <Border Background="{TemplateBinding Background}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                CornerRadius="2">
-                                            <ScrollViewer x:Name="PART_ContentHost" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
+                         Margin="0,0,10,0" />
                 
                 <Separator Margin="10,0,10,0" />
                 
                 <!-- 操作按钮 -->
-                <Button Content="刷新" 
+                <Button Content="刷新"
                         Command="{Binding RefreshCommand}"
                         Width="60"
                         Margin="0,0,5,0" />
                 
-                <Button Content="清空" 
+                <Button Content="清空"
                         Command="{Binding ClearCommand}"
                         Width="60"
                         Margin="0,0,5,0" />
                 
-                <Button Content="复制选中" 
+                <Button Content="复制选中"
                         Command="{Binding CopySelectedCommand}"
                         Width="80"
                         Margin="0,0,5,0" />
                 
-                <Button Content="复制全部" 
+                <Button Content="复制全部"
                         Command="{Binding CopyAllCommand}"
                         Width="80"
                         Margin="0,0,5,0" />
                 
-                <Button Content="保存到文件" 
+                <Button Content="保存到文件"
                         Command="{Binding SaveToFileCommand}"
                         Width="90"
                         Margin="0,0,5,0" />
                 
-                <Button Content="打开日志文件夹" 
+                <Button Content="打开日志文件夹"
                         Command="{Binding OpenLogFolderCommand}"
                         Width="110"
                         Margin="0,0,5,0" />
@@ -106,10 +89,10 @@
                 <Separator Margin="10,0,10,0" />
                 
                 <!-- 自动滚动 -->
-                <CheckBox Content="自动滚动" 
+                <CheckBox Content="自动滚动"
                           IsChecked="{Binding AutoScroll}"
                           VerticalAlignment="Center" />
-            </StackPanel>
+            </WrapPanel>
         </Border>
         
         <!-- 日志列表 -->
@@ -143,21 +126,21 @@
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Level}" Value="Debug">
-                                                        <Setter Property="Foreground" Value="Gray" />
+                                                        <Setter Property="Foreground" Value="{StaticResource BrushTextSecondary}" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding Level}" Value="Info">
-                                                        <Setter Property="Foreground" Value="Black" />
+                                                        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding Level}" Value="Warning">
-                                                        <Setter Property="Foreground" Value="Orange" />
-                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                        <Setter Property="Foreground" Value="{StaticResource BrushWarning}" />
+                                                        <Setter Property="FontWeight" Value="SemiBold" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding Level}" Value="Error">
-                                                        <Setter Property="Foreground" Value="Red" />
-                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                        <Setter Property="Foreground" Value="{StaticResource BrushDanger}" />
+                                                        <Setter Property="FontWeight" Value="SemiBold" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding Level}" Value="Critical">
-                                                        <Setter Property="Foreground" Value="DarkRed" />
+                                                        <Setter Property="Foreground" Value="{StaticResource BrushDanger}" />
                                                         <Setter Property="FontWeight" Value="Bold" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -192,7 +175,7 @@
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Exception.Message}" 
                                                TextWrapping="Wrap"
-                                               Foreground="Red"
+                                               Foreground="{StaticResource BrushDanger}"
                                                ToolTip="{Binding Exception.Message}"
                                                Visibility="{Binding Exception, Converter={StaticResource NullToVisibilityConverter}}" />
                                 </DataTemplate>
@@ -206,13 +189,13 @@
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Level}" Value="Warning">
-                                <Setter Property="Background" Value="#FFF9E6" />
+                                <Setter Property="Background" Value="#FFFFF7ED" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Level}" Value="Error">
-                                <Setter Property="Background" Value="#FFE6E6" />
+                                <Setter Property="Background" Value="#FFFEE2E2" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Level}" Value="Critical">
-                                <Setter Property="Background" Value="#FFCCCC" />
+                                <Setter Property="Background" Value="#FFFECACA" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -220,22 +203,22 @@
             </ListView>
             
             <!-- 日志文件路径 -->
-            <Border Grid.Row="1" 
-                    Background="#F0F0F0" 
-                    BorderBrush="LightGray" 
-                    BorderThickness="0,1,0,0"
-                    Padding="5">
+        <Border Grid.Row="1"
+                Background="{StaticResource BrushSurface2}"
+                BorderBrush="{StaticResource BrushBorder}"
+                BorderThickness="0,1,0,0"
+                Padding="8">
                 <TextBlock Text="{Binding LogFilePath}" 
                            TextWrapping="Wrap"
                            FontSize="11"
-                           Foreground="Gray" />
+                       Foreground="{StaticResource BrushTextSecondary}" />
             </Border>
         </Grid>
         
         <!-- 底部按钮 -->
-        <Border Grid.Row="2" 
-                Background="#F5F5F5" 
-                BorderBrush="LightGray" 
+        <Border Grid.Row="2"
+                Background="{StaticResource BrushSurface2}"
+                BorderBrush="{StaticResource BrushBorder}"
                 BorderThickness="0,1,0,0"
                 Padding="10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

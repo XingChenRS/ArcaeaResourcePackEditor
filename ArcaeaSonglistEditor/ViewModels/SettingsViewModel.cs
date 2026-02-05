@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.IO;
+using System.Text.Json;
 using System.Windows;
 
 namespace ArcaeaSonglistEditor.ViewModels;
@@ -11,6 +12,14 @@ namespace ArcaeaSonglistEditor.ViewModels;
 /// </summary>
 public partial class SettingsViewModel : ObservableObject
 {
+    private static readonly string SettingsFolderPath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "ArcaeaResourcePackEditor");
+
+    private static readonly string SettingsFilePath = Path.Combine(
+        SettingsFolderPath,
+        "settings.json");
+
     #region 常规设置
     [ObservableProperty]
     private bool _autoLoadLastFile = true;
@@ -123,8 +132,7 @@ public partial class SettingsViewModel : ObservableObject
     {
         try
         {
-            // 这里应该将设置保存到配置文件
-            // 暂时只显示保存成功的消息
+            SaveSettingsToFile();
             ApplyLogSettings();
             MessageBox.Show("设置已保存", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -247,8 +255,114 @@ public partial class SettingsViewModel : ObservableObject
     #region 私有方法
     private void LoadSettings()
     {
-        // 这里应该从配置文件加载设置
-        // 暂时使用默认值
+        try
+        {
+            if (!File.Exists(SettingsFilePath))
+            {
+                return;
+            }
+
+            var json = File.ReadAllText(SettingsFilePath);
+            var data = JsonSerializer.Deserialize<SettingsData>(json);
+            if (data != null)
+            {
+                ApplySettingsData(data);
+            }
+        }
+        catch
+        {
+            // 如果读取失败，保持默认值
+        }
+    }
+
+    private void SaveSettingsToFile()
+    {
+        if (!Directory.Exists(SettingsFolderPath))
+        {
+            Directory.CreateDirectory(SettingsFolderPath);
+        }
+
+        var data = CreateSettingsData();
+        var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(SettingsFilePath, json);
+    }
+
+    private SettingsData CreateSettingsData()
+    {
+        return new SettingsData
+        {
+            AutoLoadLastFile = AutoLoadLastFile,
+            AutoBackupOnSave = AutoBackupOnSave,
+            ShowConfirmationDialogs = ShowConfirmationDialogs,
+            DefaultLanguage = DefaultLanguage,
+            AutoValidateInput = AutoValidateInput,
+            ShowAdvancedOptions = ShowAdvancedOptions,
+            EnableLivePreview = EnableLivePreview,
+            DefaultDateFormat = DefaultDateFormat,
+            DefaultSavePath = DefaultSavePath,
+            BackupPath = BackupPath,
+            LogStoragePath = LogStoragePath,
+            AutoCreateBackupFolder = AutoCreateBackupFolder,
+            CompressJsonOnSave = CompressJsonOnSave,
+            EnableStrictValidation = EnableStrictValidation,
+            ShowWarningsAsErrors = ShowWarningsAsErrors,
+            AutoFixCommonErrors = AutoFixCommonErrors,
+            MaxErrorDisplayCount = MaxErrorDisplayCount,
+            EnableDarkMode = EnableDarkMode,
+            ShowLineNumbers = ShowLineNumbers,
+            UseCompactLayout = UseCompactLayout,
+            FontSize = FontSize
+        };
+    }
+
+    private void ApplySettingsData(SettingsData data)
+    {
+        AutoLoadLastFile = data.AutoLoadLastFile;
+        AutoBackupOnSave = data.AutoBackupOnSave;
+        ShowConfirmationDialogs = data.ShowConfirmationDialogs;
+        DefaultLanguage = data.DefaultLanguage ?? "简体中文";
+        AutoValidateInput = data.AutoValidateInput;
+        ShowAdvancedOptions = data.ShowAdvancedOptions;
+        EnableLivePreview = data.EnableLivePreview;
+        DefaultDateFormat = data.DefaultDateFormat ?? "Unix时间戳";
+        DefaultSavePath = data.DefaultSavePath ?? DefaultSavePath;
+        BackupPath = data.BackupPath ?? BackupPath;
+        LogStoragePath = data.LogStoragePath ?? LogStoragePath;
+        AutoCreateBackupFolder = data.AutoCreateBackupFolder;
+        CompressJsonOnSave = data.CompressJsonOnSave;
+        EnableStrictValidation = data.EnableStrictValidation;
+        ShowWarningsAsErrors = data.ShowWarningsAsErrors;
+        AutoFixCommonErrors = data.AutoFixCommonErrors;
+        MaxErrorDisplayCount = data.MaxErrorDisplayCount <= 0 ? MaxErrorDisplayCount : data.MaxErrorDisplayCount;
+        EnableDarkMode = data.EnableDarkMode;
+        ShowLineNumbers = data.ShowLineNumbers;
+        UseCompactLayout = data.UseCompactLayout;
+        FontSize = data.FontSize <= 0 ? FontSize : data.FontSize;
+    }
+
+    private class SettingsData
+    {
+        public bool AutoLoadLastFile { get; set; }
+        public bool AutoBackupOnSave { get; set; }
+        public bool ShowConfirmationDialogs { get; set; }
+        public string? DefaultLanguage { get; set; }
+        public bool AutoValidateInput { get; set; }
+        public bool ShowAdvancedOptions { get; set; }
+        public bool EnableLivePreview { get; set; }
+        public string? DefaultDateFormat { get; set; }
+        public string? DefaultSavePath { get; set; }
+        public string? BackupPath { get; set; }
+        public string? LogStoragePath { get; set; }
+        public bool AutoCreateBackupFolder { get; set; }
+        public bool CompressJsonOnSave { get; set; }
+        public bool EnableStrictValidation { get; set; }
+        public bool ShowWarningsAsErrors { get; set; }
+        public bool AutoFixCommonErrors { get; set; }
+        public int MaxErrorDisplayCount { get; set; }
+        public bool EnableDarkMode { get; set; }
+        public bool ShowLineNumbers { get; set; }
+        public bool UseCompactLayout { get; set; }
+        public double FontSize { get; set; }
     }
     #endregion
 }

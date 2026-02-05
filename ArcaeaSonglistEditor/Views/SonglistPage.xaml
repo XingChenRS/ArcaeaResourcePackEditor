@@ -16,6 +16,7 @@
 
         <!-- 工具栏 -->
         <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="歌曲列表" Style="{StaticResource PageTitleText}" />
             <WrapPanel ItemHeight="32">
                 <TextBox Width="240"
                          Margin="0,0,8,8"
@@ -88,14 +89,12 @@
 
                     <TextBlock Grid.Row="0"
                                Text="歌曲详情"
-                               FontWeight="SemiBold"
-                               Margin="2,0,0,10" />
+                               Style="{StaticResource SectionTitleText}" />
 
                     <ScrollViewer Grid.Row="1"
                                   VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Auto">
-                        <StackPanel IsEnabled="{Binding HasSelectedSong}"
-                                    MinWidth="640">
+                        <StackPanel IsEnabled="{Binding HasSelectedSong}">
                             <GroupBox Header="基础信息">
                                 <Grid Margin="4">
                                     <Grid.RowDefinitions>
@@ -107,26 +106,26 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="160" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Link Play ID（idx，可选）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Link Play ID（idx，可选）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedSong.Index, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="歌曲ID（id）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="歌曲ID（id）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedSong.Id, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="标题（英文，title_localized.en）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="标题（英文，title_localized.en）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedSong.TitleLocalized.English, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="艺术家（artist）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="艺术家（artist）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedSong.Artist, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="BPM（显示，bpm）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="BPM（显示，bpm）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedSong.Bpm, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="基准 BPM（bpm_base）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="基准 BPM（bpm_base）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SelectedSong.BpmBase, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
                             </GroupBox>
@@ -142,14 +141,14 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="160" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="曲包ID（set）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="曲包ID（set）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedSong.Set, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="阵营（side）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="阵营（side）" Style="{StaticResource FieldLabelText}" />
                                     <ComboBox Grid.Row="1" Grid.Column="1"
                                               SelectedValue="{Binding SelectedSong.Side}"
                                               SelectedValuePath="Tag">
@@ -158,16 +157,16 @@
                                         <ComboBoxItem Content="消色侧" Tag="{x:Static models:ArcaeaSide.Colorless}" />
                                     </ComboBox>
 
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="背景（bg）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="背景（bg）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedSong.Background, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="反转背景（bg_inverse）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="反转背景（bg_inverse）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedSong.BackgroundInverse, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="预览起始（audioPreview，ms）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="预览起始（audioPreview，ms）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedSong.AudioPreview, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="预览结束（audioPreviewEnd，ms）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="预览结束（audioPreviewEnd，ms）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SelectedSong.AudioPreviewEnd, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
                             </GroupBox>
@@ -182,28 +181,28 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="160" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="购买方式（purchase）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="购买方式（purchase）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedSong.Purchase, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="日期（date，Unix）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="日期（date，Unix）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedSong.Date, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="版本分类（version）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="版本分类（version）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedSong.Version, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="隐藏直到（hidden_until）" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="隐藏直到（hidden_until）" Style="{StaticResource FieldLabelText}" />
                                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedSong.HiddenUntil, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-                                        <CheckBox Content="远程下载（remote_dl）" IsChecked="{Binding SelectedSong.RemoteDownload}" Margin="0,0,12,0" />
-                                        <CheckBox Content="世界解锁（world_unlock）" IsChecked="{Binding SelectedSong.WorldUnlock}" Margin="0,0,12,0" />
-                                        <CheckBox Content="BYD 本地解锁（byd_local_unlock）" IsChecked="{Binding SelectedSong.BeyondLocalUnlock}" Margin="0,0,12,0" />
-                                        <CheckBox Content="禁止直播（no_stream）" IsChecked="{Binding SelectedSong.NoStream}" />
-                                    </StackPanel>
+                                    <WrapPanel Grid.Row="4" Grid.Column="1" ItemHeight="26">
+                                        <CheckBox Content="远程下载（remote_dl）" IsChecked="{Binding SelectedSong.RemoteDownload}" Margin="0,0,12,6" />
+                                        <CheckBox Content="世界解锁（world_unlock）" IsChecked="{Binding SelectedSong.WorldUnlock}" Margin="0,0,12,6" />
+                                        <CheckBox Content="BYD 本地解锁（byd_local_unlock）" IsChecked="{Binding SelectedSong.BeyondLocalUnlock}" Margin="0,0,12,6" />
+                                        <CheckBox Content="禁止直播（no_stream）" IsChecked="{Binding SelectedSong.NoStream}" Margin="0,0,12,6" />
+                                    </WrapPanel>
                                 </Grid>
                             </GroupBox>
 

@@ -59,6 +59,27 @@
             <System:Double x:Key="FontSizeSection"
                            xmlns:System="clr-namespace:System;assembly=mscorlib">14</System:Double>
 
+            <Style x:Key="PageTitleText" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                <Setter Property="Margin" Value="0,0,0,12" />
+            </Style>
+
+            <Style x:Key="SectionTitleText" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="{StaticResource FontSizeSection}" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                <Setter Property="Margin" Value="2,0,0,10" />
+            </Style>
+
+            <Style x:Key="FieldLabelText" TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{StaticResource BrushTextSecondary}" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,0,10,6" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+
             <!-- Window defaults -->
             <Style TargetType="{x:Type Window}">
                 <Setter Property="Background" Value="{StaticResource BrushSurface}" />
@@ -88,7 +109,7 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="{StaticResource RadiusSm}"
                                     SnapsToDevicePixels="True">
-                                <ContentPresenter Margin="0"
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   RecognizesAccessKey="True" />
@@ -195,7 +216,9 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="{StaticResource RadiusSm}"
                                     SnapsToDevicePixels="True">
-                                <ScrollViewer x:Name="PART_ContentHost" Margin="0" />
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              Margin="0"
+                                              Padding="{TemplateBinding Padding}" />
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsKeyboardFocused" Value="True">
